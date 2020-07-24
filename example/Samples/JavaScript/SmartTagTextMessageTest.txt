@@ -1,0 +1,8 @@
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Connected
+Request started successfully.
+Text Message ID: 18.
+Request completed, Result: Success.
+Finished.

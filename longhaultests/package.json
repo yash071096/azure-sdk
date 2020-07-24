@@ -1,0 +1,41 @@
+{
+  "name": "longhaultests",
+  "version": "0.0.1",
+  "description": "Long haul tests for the Azure IoT SDKs for Node.js",
+  "main": "./lib/iothub_longhaul.js",
+  "bin": "./lib/iothub_longhaul.js",
+  "scripts": {
+    "npmlockrefresh": "npm i --package-lock-only",
+    "lint": "tslint --project . -c ../tslint.json",
+    "build": "tsc",
+    "setup_links": "npm link azure-iot-common azure-iot-device azure-iot-device-amqp azure-iot-device-mqtt azure-iot-device-http azure-iothub",
+    "start": "node lib/iothub_longhaul.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azure/azure-iot-sdk-node.git"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-iot-sdk-node/issues"
+  },
+  "homepage": "https://github.com/azure/azure-iot-sdk-node#readme",
+  "devDependencies": {
+    "@types/node": "^9.6.50",
+    "@types/uuid": "^3.4.5",
+    "tslint": "^6.1.0",
+    "typescript": "3.7.5"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "azure-iot-common": "1.12.4",
+    "azure-iot-device": "1.17.0",
+    "azure-iot-device-amqp": "1.13.0",
+    "azure-iot-device-http": "1.13.0",
+    "azure-iot-device-mqtt": "1.15.0",
+    "azure-iothub": "1.12.4",
+    "debug": "^4.1.1",
+    "uuid": "^3.3.2"
+  }
+}

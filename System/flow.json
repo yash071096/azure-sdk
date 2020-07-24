@@ -1,0 +1,514 @@
+[
+  {
+      "id": "ef323d58.d976d",
+      "type": "tab",
+      "label": "Flow 1",
+      "disabled": false,
+      "info": ""
+  },
+  {
+      "id": "64e45583.2b44cc",
+      "type": "mqtt-broker",
+      "z": "",
+      "name": "",
+      "broker": "broker.mqttdashboard.com",
+      "port": "1883",
+      "clientid": "",
+      "usetls": false,
+      "compatmode": false,
+      "keepalive": "60",
+      "cleansession": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthPayload": "",
+      "closeTopic": "",
+      "closeQos": "0",
+      "closePayload": "",
+      "willTopic": "",
+      "willQos": "0",
+      "willPayload": ""
+  },
+  {
+      "id": "ee4031a0.ba068",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 1 Active",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 270,
+      "y": 400,
+      "wires": [
+          [
+              "369929e9.fbd406"
+          ]
+      ]
+  },
+  {
+      "id": "5b1fab24.d33ee4",
+      "type": "inject",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Input",
+      "payload": "true",
+      "payloadType": "bool",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 280,
+      "y": 120,
+      "wires": [
+          [
+              "cda251cb.4214c"
+          ]
+      ]
+  },
+  {
+      "id": "cda251cb.4214c",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 1 Active",
+      "qos": "2",
+      "retain": "true",
+      "broker": "64e45583.2b44cc",
+      "x": 680,
+      "y": 120,
+      "wires": []
+  },
+  {
+      "id": "e55423e8.0ba8d",
+      "type": "inject",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Input",
+      "payload": "true",
+      "payloadType": "bool",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 280,
+      "y": 180,
+      "wires": [
+          [
+              "c7480e3d.3708b"
+          ]
+      ]
+  },
+  {
+      "id": "c7480e3d.3708b",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 2 Active",
+      "qos": "2",
+      "retain": "true",
+      "broker": "64e45583.2b44cc",
+      "x": 680,
+      "y": 180,
+      "wires": []
+  },
+  {
+      "id": "979b4acc.ac7fd8",
+      "type": "inject",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Input",
+      "payload": "true",
+      "payloadType": "bool",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 280,
+      "y": 240,
+      "wires": [
+          [
+              "69eb994e.aa4668"
+          ]
+      ]
+  },
+  {
+      "id": "69eb994e.aa4668",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 3 Active",
+      "qos": "1",
+      "retain": "true",
+      "broker": "64e45583.2b44cc",
+      "x": 680,
+      "y": 240,
+      "wires": []
+  },
+  {
+      "id": "beccd5b4.dabd08",
+      "type": "inject",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Input",
+      "payload": "true",
+      "payloadType": "bool",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 280,
+      "y": 300,
+      "wires": [
+          [
+              "8fc39d7e.c2383"
+          ]
+      ]
+  },
+  {
+      "id": "8fc39d7e.c2383",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 4 Active",
+      "qos": "1",
+      "retain": "true",
+      "broker": "64e45583.2b44cc",
+      "x": 680,
+      "y": 300,
+      "wires": []
+  },
+  {
+      "id": "369929e9.fbd406",
+      "type": "function",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "func": "var dataStore = flow.get(\"dataStore1\")\nlet outMsg = {};\n\nmessage = msg.topic.split(\" \");\nmessage.push(Date.now());\n\nconsole.log(message);\n\nif (dataStore){\n    dataStore[message[1]] = {data: message[2], timestamp: message[3]};\n    if (message[2] === \"Active\"){\n        if (message[1] === \"1\") {\n            if (dataStore[\"2\"].data === \"Active\") {\n                checkTimeStamp(message[1], \"2\");\n            }\n        }\n        if (message[1] === \"2\") {\n            if (dataStore[\"1\"].data === \"Active\") {\n                checkTimeStamp(message[1], \"1\");\n            }\n        }\n    }\n} else {\n\n    dataStore = { \n        '1': {data: \"unknown\", timestamp: Date.now()},\n        '2': {data: \"unknown\", timestamp: Date.now()},\n        '3': {data: \"unknown\", timestamp: Date.now()},\n        '4': {data: \"unknown\", timestamp: Date.now()},\n    };\n    dataStore[message[1]] = {data: message[2], timestamp: message[3]}\n}\n\nflow.set(\"dataStore1\", dataStore);\n\nif (outMsg.payload){\n    return outMsg;\n} else {\n    return\n}\n\n\nfunction checkTimeStamp(a, b){\n    var deltaTime = dataStore[a].timestamp - dataStore[b].timestamp;\n    if (deltaTime < 3000 ){\n        outMsg.payload = \"Result 1 & 2\";\n        // console.log(\"bingo: \" + deltaTime.toString());\n    } else {\n        // console.log(\"TimeOut: \" + deltaTime.toString());\n    }\n\n}",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 470,
+      "y": 520,
+      "wires": [
+          [
+              "88a1b660.24ed18",
+              "4160ea38.774df4"
+          ]
+      ]
+  },
+  {
+      "id": "71e908fe.b89cf8",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 2 Active",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 270,
+      "y": 480,
+      "wires": [
+          [
+              "369929e9.fbd406"
+          ]
+      ]
+  },
+  {
+      "id": "c768e164.b4fe5",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 3 Active",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 270,
+      "y": 560,
+      "wires": [
+          [
+              "369929e9.fbd406"
+          ]
+      ]
+  },
+  {
+      "id": "7c1ca2d2.f51f4c",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 4 Active",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 270,
+      "y": 640,
+      "wires": [
+          [
+              "369929e9.fbd406"
+          ]
+      ]
+  },
+  {
+      "id": "8ba59084.fab5b",
+      "type": "aedes broker",
+      "z": "ef323d58.d976d",
+      "name": "MyBroker",
+      "mqtt_port": 1883,
+      "mqtt_ws_port": "",
+      "cert": "",
+      "key": "",
+      "certname": "",
+      "keyname": "",
+      "dburl": "",
+      "usetls": false,
+      "x": 280,
+      "y": 40,
+      "wires": [
+          [
+              "5b1d7fb5.4aa1e"
+          ]
+      ]
+  },
+  {
+      "id": "5b1d7fb5.4aa1e",
+      "type": "debug",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "active": false,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 670,
+      "y": 40,
+      "wires": []
+  },
+  {
+      "id": "88a1b660.24ed18",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Function A",
+      "qos": "0",
+      "retain": "false",
+      "broker": "64e45583.2b44cc",
+      "x": 670,
+      "y": 520,
+      "wires": []
+  },
+  {
+      "id": "4a06a114.cae58",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Function A",
+      "qos": "2",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 280,
+      "y": 760,
+      "wires": [
+          [
+              "f21fdd00.9d366"
+          ]
+      ]
+  },
+  {
+      "id": "9130aa96.3c0068",
+      "type": "debug",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "active": false,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "x": 670,
+      "y": 640,
+      "wires": []
+  },
+  {
+      "id": "b1cab72c.383f88",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 1 DeActive",
+      "qos": "",
+      "retain": "",
+      "broker": "64e45583.2b44cc",
+      "x": 690,
+      "y": 720,
+      "wires": []
+  },
+  {
+      "id": "9a88ddf0.b6a93",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 2 DeActive",
+      "qos": "",
+      "retain": "",
+      "broker": "64e45583.2b44cc",
+      "x": 690,
+      "y": 780,
+      "wires": []
+  },
+  {
+      "id": "1b1e14b0.22336b",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 1 DeActive",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 260,
+      "y": 900,
+      "wires": [
+          [
+              "157e5cba.f508a3"
+          ]
+      ]
+  },
+  {
+      "id": "157e5cba.f508a3",
+      "type": "function",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "func": "var dataStore = flow.get(\"dataStore1\")\nlet outMsg = {};\nvar responseTime = null;\n\nmessage = msg.topic.split(\" \");\nmessage.push(Date.now());\n\nif (dataStore){\n    if (message[2] === \"DeActive\"){\n        if (dataStore[\"1\"].timestamp > dataStore[\"2\"].timestamp){\n            responseTime = Date.now() - dataStore[\"1\"].timestamp;\n        } else {\n            responseTime = Date.now() - dataStore[\"2\"].timestamp;\n        }\n        \n        dataStore[message[1]] = {data: message[2], timestamp: message[3]};\n        if (message[1] == \"1\") {\n            if (dataStore[\"2\"].data === \"DeActive\") {\n                outMsg.payload = \"Result Deactive\";\n                responseTime = null;\n            }\n        }\n        if (message[1] == \"2\") {\n            if (dataStore[\"1\"].data === \"DeActive\") {\n                outMsg.payload = \"Result Deactive\";\n                responseTime = null;\n            }\n        }\n    }\n} else {\n\n    dataStore = { \n        '1': {data: \"unknown\", timestamp: Date.now()},\n        '2': {data: \"unknown\", timestamp: Date.now()},\n        '3': {data: \"unknown\", timestamp: Date.now()},\n        '4': {data: \"unknown\", timestamp: Date.now()},\n    };\n    dataStore[message[1]] = {data: message[2], timestamp: message[3]}\n}\n\nflow.set(\"dataStore1\", dataStore);\n\nconsole.log(message);\nif (responseTime){\n    console.log(\"Responce Time: \" + responseTime);\n}\n\nif (outMsg.payload){\n\n    return outMsg;\n} else {\n    return;\n}\n",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 470,
+      "y": 1020,
+      "wires": [
+          [
+              "74075dcc.019994",
+              "99d81abd.35c0b8"
+          ]
+      ]
+  },
+  {
+      "id": "fdb4a7e7.ac1cd8",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 2 DeActive",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 260,
+      "y": 980,
+      "wires": [
+          [
+              "157e5cba.f508a3"
+          ]
+      ]
+  },
+  {
+      "id": "45dff15a.e51cc",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 3 DeActive",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 260,
+      "y": 1060,
+      "wires": [
+          [
+              "157e5cba.f508a3"
+          ]
+      ]
+  },
+  {
+      "id": "82604474.943d88",
+      "type": "mqtt in",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Event 4 DeActive",
+      "qos": "0",
+      "datatype": "auto",
+      "broker": "64e45583.2b44cc",
+      "x": 260,
+      "y": 1140,
+      "wires": [
+          [
+              "157e5cba.f508a3"
+          ]
+      ]
+  },
+  {
+      "id": "99d81abd.35c0b8",
+      "type": "mqtt out",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "topic": "Function A",
+      "qos": "0",
+      "retain": "false",
+      "broker": "64e45583.2b44cc",
+      "x": 670,
+      "y": 1020,
+      "wires": []
+  },
+  {
+      "id": "74075dcc.019994",
+      "type": "debug",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 670,
+      "y": 960,
+      "wires": []
+  },
+  {
+      "id": "4160ea38.774df4",
+      "type": "debug",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "false",
+      "x": 670,
+      "y": 460,
+      "wires": []
+  },
+  {
+      "id": "f21fdd00.9d366",
+      "type": "switch",
+      "z": "ef323d58.d976d",
+      "name": "",
+      "property": "payload",
+      "propertyType": "msg",
+      "rules": [
+          {
+              "t": "eq",
+              "v": "Result 1 & 2",
+              "vt": "str"
+          },
+          {
+              "t": "eq",
+              "v": "Result 1 & 2",
+              "vt": "str"
+          }
+      ],
+      "checkall": "true",
+      "repair": false,
+      "outputs": 2,
+      "x": 460,
+      "y": 760,
+      "wires": [
+          [
+              "b1cab72c.383f88",
+              "9130aa96.3c0068"
+          ],
+          [
+              "9a88ddf0.b6a93"
+          ]
+      ]
+  }
+]

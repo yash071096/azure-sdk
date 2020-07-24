@@ -1,0 +1,106 @@
+resources:
+- repo: self
+phases:
+- phase: Phase_1
+  displayName: Ubuntu 16.04
+
+  condition: succeeded()
+  queue:
+    name: Hosted Ubuntu 1604
+
+  steps:
+  - task: NodeTool@0
+    displayName: 'Use Node 10.15.x'
+    inputs:
+      versionSpec: '10.15.x'
+
+  - script: |
+      npm install --global node-gyp
+      npm install -g lerna
+      npm install
+    displayName: 'Install Tools'
+
+  - script: |
+       lerna bootstrap --hoist
+       lerna run build
+    displayName: 'Bootstrap & Build'
+
+  - script: |
+       cd $TEST_DIR
+       COUNTER=0
+       while [  $COUNTER -lt $LOOP_COUNT ]; do
+           echo LOOP COUNTER: $COUNTER
+           npm -s run $TEST_SUITE
+           [ $? -eq 0 ] || exit $?
+           let COUNTER=COUNTER+1
+       done
+    displayName: 'Run Specified E2E Test'
+    env:
+      DEBUG: $(DEBUG)
+      LOOP_COUNT: $(LOOP_COUNT)
+      TEST_SUITE: $(TEST_SUITE)
+      TEST_DIR: $(TEST_DIR)
+      IOTHUB_CA_ROOT_CERT: $(IOTHUB-CA-ROOT-CERT)
+      IOTHUB_CA_ROOT_CERT_KEY: $(IOTHUB-CA-ROOT-CERT-KEY)
+      IOT_PROVISIONING_DEVICE_ENDPOINT: $(IOT-PROVISIONING-DEVICE-ENDPOINT)
+      IOTHUB_CONNECTION_STRING: $(LINUX-IOTHUB-CONNECTION-STRING)
+      STORAGE_CONNECTION_STRING: $(LINUX-STORAGE-CONNECTION-STRING)
+      IOT_PROVISIONING_DEVICE_IDSCOPE: $(LINUX-IOT-PROVISIONING-DEVICE-IDSCOPE)
+      IOT_PROVISIONING_ROOT_CERT: $(LINUX-IOT-PROVISIONING-ROOT-CERT)
+      IOT_PROVISIONING_ROOT_CERT_KEY: $(LINUX-IOT-PROVISIONING-ROOT-CERT-KEY)
+      IOT_PROVISIONING_SERVICE_CONNECTION_STRING: $(LINUX-IOT-PROVISIONING-SERVICE-CONNECTION-STRING)
+      DPS_CONN_STRING_INVALID_CERT: $(DPS-CONN-STRING-INVALID-CERT)
+      DPS_GLOBAL_DEVICE_ENDPOINT_INVALID_CERT: $(DPS-GLOBAL-DEVICE-ENDPOINT-INVALID-CERT)
+      IOTHUB_CONN_STRING_INVALID_CERT: $(IOTHUB-CONN-STRING-INVALID-CERT)
+      IOTHUB_DEVICE_CONN_STRING_INVALID_CERT: $(IOTHUB-DEVICE-CONN-STRING-INVALID-CERT)
+
+- phase: Phase_2
+  displayName: Windows
+
+  condition: succeeded()
+  queue:
+    name: Hosted VS2017
+  steps:
+  - task: NodeTool@0
+    displayName: 'Use Node 8.10.x'
+    inputs:
+      versionSpec: 8.10.x
+
+  - powershell: |
+      runas.exe /savecred /user:administrator
+      npm install --global node-gyp
+      npm install --global lerna
+      npm install
+    displayName: 'Install Tools'
+
+  - script: |
+       call lerna bootstrap --hoist
+       call lerna run build
+    displayName: 'Bootstrap & Build'
+
+  - script: |
+       cd %TEST_DIR%
+       FOR /l %%i in (1,1,%LOOP_COUNT%) DO (
+           echo LOOP COUNTER: %%i
+           call npm -s run %TEST_SUITE%
+           if %errorlevel% neq 0 exit /b %errorlevel%
+       )
+    displayName: 'Run Specified E2E Test'
+    env:
+      DEBUG: $(DEBUG)
+      LOOP_COUNT: $(LOOP_COUNT)
+      TEST_SUITE: $(TEST_SUITE)
+      TEST_DIR: $(TEST_DIR)
+      IOTHUB_CA_ROOT_CERT: $(IOTHUB-CA-ROOT-CERT)
+      IOTHUB_CA_ROOT_CERT_KEY: $(IOTHUB-CA-ROOT-CERT-KEY)
+      IOT_PROVISIONING_DEVICE_ENDPOINT: $(IOT-PROVISIONING-DEVICE-ENDPOINT)
+      IOTHUB_CONNECTION_STRING: $(WINDOWS-IOTHUB-CONNECTION-STRING)
+      STORAGE_CONNECTION_STRING: $(WINDOWS-STORAGE-CONNECTION-STRING)
+      IOT_PROVISIONING_DEVICE_IDSCOPE: $(WINDOWS-IOT-PROVISIONING-DEVICE-IDSCOPE)
+      IOT_PROVISIONING_ROOT_CERT: $(WINDOWS-IOT-PROVISIONING-ROOT-CERT)
+      IOT_PROVISIONING_ROOT_CERT_KEY: $(WINDOWS-IOT-PROVISIONING-ROOT-CERT-KEY)
+      IOT_PROVISIONING_SERVICE_CONNECTION_STRING: $(WINDOWS-IOT-PROVISIONING-SERVICE-CONNECTION-STRING)
+      DPS_CONN_STRING_INVALID_CERT: $(DPS-CONN-STRING-INVALID-CERT)
+      DPS_GLOBAL_DEVICE_ENDPOINT_INVALID_CERT: $(DPS-GLOBAL-DEVICE-ENDPOINT-INVALID-CERT)
+      IOTHUB_CONN_STRING_INVALID_CERT: $(IOTHUB-CONN-STRING-INVALID-CERT)
+      IOTHUB_DEVICE_CONN_STRING_INVALID_CERT: $(IOTHUB-DEVICE-CONN-STRING-INVALID-CERT)

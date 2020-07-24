@@ -1,0 +1,8 @@
+coverage/
+devdoc/
+test/
+ts-samples/
+samples/
+src/
+dist/**/*.map
+.nyc_output

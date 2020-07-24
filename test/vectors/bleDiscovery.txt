@@ -1,0 +1,39 @@
+Agent registered
+[CHG] Controller F8:63:3F:C5:D6:76 Pairable: yes
+[bluetooth]# power off
+Changing power off succeeded
+[CHG] Controller F8:63:3F:C5:D6:76 Powered: no
+[CHG] Controller F8:63:3F:C5:D6:76 Discovering: no
+[CHG] Controller F8:63:3F:C5:D6:76 Class: 0x00000000
+[bluetooth]# power on
+[CHG] Controller F8:63:3F:C5:D6:76 Class: 0x000c010c
+Changing power on succeeded
+[CHG] Controller F8:63:3F:C5:D6:76 Powered: yes
+[bluetooth]# agent on
+Agent is already registered
+[bluetooth]# scan on
+Discovery started
+[CHG] Controller F8:63:3F:C5:D6:76 Discovering: yes
+[CHG] Device 4F:3F:DB:D8:8F:A6 RSSI: -89
+[CHG] Device 4F:3F:DB:D8:8F:A6 TxPower: 12
+[CHG] Device 24:4B:03:A2:E5:7F RSSI: -90
+[CHG] Device 9C:30:5B:76:DC:9A RSSI: -80
+[CHG] Device 49:9A:95:2C:1E:48 RSSI: -85
+[CHG] Device 49:9A:95:2C:1E:48 TxPower: 12
+[CHG] Device 98:52:3D:69:51:E0 RSSI: -45
+[CHG] Device 98:52:3D:69:51:E0 TxPower: 4
+[CHG] Device 77:C9:C8:20:93:63 RSSI: -90
+[CHG] Device 77:C9:C8:20:93:63 TxPower: 12
+[CHG] Device AC:23:3F:61:EA:3D RSSI: -76
+[CHG] Device AC:23:3F:61:EA:3A RSSI: -82
+[CHG] Device 6C:75:FC:83:07:89 RSSI: -83
+[CHG] Device 6C:75:FC:83:07:89 TxPower: 8
+[CHG] Device 79:66:C1:61:52:9B RSSI: -89
+[CHG] Device 79:66:C1:61:52:9B TxPower: 12
+[CHG] Device 49:FD:32:81:9B:0A RSSI: -93
+[CHG] Device 49:FD:32:81:9B:0A TxPower: 12
+[CHG] Device 49:61:BE:09:5E:EE RSSI: -92
+[CHG] Device 61:0F:C5:16:38:43 RSSI: -97
+[CHG] Device 61:0F:C5:16:38:43 TxPower: 12
+[CHG] Device 78:9C:85:04:82:FF RSSI: -85
+[CHG] Device 78:9C:85:04:82:FF ManufacturerData Key: 0x01d1
