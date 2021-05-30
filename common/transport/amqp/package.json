@@ -14,7 +14,7 @@
     "machina": "^4.0.2",
     "rhea": "^1.0.15",
     "uuid": "^3.3.2",
-    "ws": "^6.0.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@types/async": "^2.4.2",
